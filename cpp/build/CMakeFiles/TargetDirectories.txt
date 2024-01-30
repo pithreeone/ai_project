@@ -1,3 +1,0 @@
-/root/ai_project/cpp/build/CMakeFiles/ai_project.dir
-/root/ai_project/cpp/build/CMakeFiles/edit_cache.dir
-/root/ai_project/cpp/build/CMakeFiles/rebuild_cache.dir
