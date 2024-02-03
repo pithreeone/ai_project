@@ -9,10 +9,11 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 
 # Add an executable
-ADD_EXECUTABLE (${PROJECT_NAME} src/main.cpp src/cnn.cpp src/nn.cpp src/dataLoader.cpp src/optimization.cpp)
+add_executable (main src/main.cpp src/cnn.cpp src/nn.cpp src/dataLoader.cpp src/optimization.cpp)
 
 # Specify the include directories
-target_include_directories(${PROJECT_NAME} PRIVATE include/)
+target_include_directories(main PRIVATE include/)
+target_link_libraries(main ${OpenCV_LIBS} )
 
 
 add_executable(DisplayImage src/DisplayImage.cpp )

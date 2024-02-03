@@ -39,7 +39,9 @@ double LR = 0.001;
 int main(int argc, char** argv){
 
     cout << "hello_world" << endl;
+    // load data
     DataLoader dl(data_path_root);
+    dl.loadDataFromFolder();
 
     Optimization optimization;
     NN loss_func;
