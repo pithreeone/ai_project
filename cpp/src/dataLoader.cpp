@@ -30,7 +30,7 @@ void DataLoader::loadDataFromFolder(){
                     }
                 }
                 train_x_.push_back(eigenImage);
-                train_y_.push_back();
+                // train_y_.push_back();
             } else {
                 std::cerr << "Failed to read image: " << filePath << std::endl;
             }

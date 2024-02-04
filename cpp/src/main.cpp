@@ -40,10 +40,12 @@ int main(int argc, char** argv){
 
     cout << "hello_world" << endl;
     // load data
-    DataLoader dl(data_path_root);
-    dl.loadDataFromFolder();
+    // DataLoader dl(data_path_root);
+    // dl.loadDataFromFolder();
+    
+    CNN cnn;
 
-    Optimization optimization;
+    Optimization optimization(cnn.network_);
     NN loss_func;
     loss_func.CrossEntropyLoss();
 
@@ -66,7 +68,5 @@ int main(int argc, char** argv){
         }
     }
 
-
-    CNN cnn;
     return 0;
 }
