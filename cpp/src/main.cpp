@@ -40,8 +40,8 @@ int main(int argc, char** argv){
 
     cout << "hello_world" << endl;
     // load data
-    // DataLoader dl(data_path_root);
-    // dl.loadDataFromFolder();
+    DataLoader dl(data_path_root);
+    dl.loadDataFromFolder();
     
     CNN cnn;
 

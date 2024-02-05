@@ -23,6 +23,6 @@ public:
     // check if network is legal, change the variable: network_is_legal_
     void checkNetwork();
 
-    void forward(Eigen::MatrixXf input, Eigen::VectorXf* output, int* y);
+    void forward(Eigen::MatrixXf input, Eigen::VectorXf& output, int& y);
 
 };
