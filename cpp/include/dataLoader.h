@@ -12,7 +12,8 @@ class DataLoader{
 public:
     string data_path_root_;
 
-    vector<Eigen::MatrixXd> train_x_, train_y_, test_x_, test_y_;
+    vector<Eigen::MatrixXd> train_x_, test_x_;
+    vector<int> train_y_, test_y_;
 
     // Constructor: initialize some parameters... 
     DataLoader(string data_path_root);
@@ -24,8 +25,8 @@ public:
     void shuffleData();
 
     // &train_x, &train_y, &test_x, &test_y
-    void getData(vector<Eigen::MatrixXd> train_x, vector<Eigen::MatrixXd> train_y, 
-                vector<Eigen::MatrixXd> test_x, vector<Eigen::MatrixXd> test_y);
+    void getData(vector<Eigen::MatrixXd> train_x, vector<int> train_y, 
+                vector<Eigen::MatrixXd> test_x, vector<int> test_y);
 };
 
 
