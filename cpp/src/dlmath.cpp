@@ -14,7 +14,7 @@ namespace DLMATH {
         
     }
 
-    double SoftMaxPrime(){
+    double SoftMaxPrime(Eigen::VectorXf x, int i, int j){
         
     }
 
@@ -30,7 +30,11 @@ namespace DLMATH {
         
     }
 
-    std::vector<Eigen::MatrixXf> Conv3d(std::vector<Eigen::MatrixXf> x, std::vector<Eigen::MatrixXf> kernel){
+    std::vector<Eigen::MatrixXf> Conv3d_2d(std::vector<Eigen::MatrixXf> x, std::vector<Eigen::MatrixXf> kernel){
+    
+    }
+
+    std::vector<Eigen::MatrixXf> Conv3d_3d(std::vector<Eigen::MatrixXf> x, std::vector<Kernel3d> kernels){
         
     }
 }

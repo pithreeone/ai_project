@@ -1,5 +1,6 @@
 #include <iostream>
 #include "nn.h"
+#include "dlmath.h"
 
 
 void NN::Conv2d(int in_channels, int out_channels, int kernel_size, int stride, int padding){
@@ -17,7 +18,8 @@ void NN::Conv2d(int in_channels, int out_channels, int kernel_size, int stride, 
 }
 
 vector<Eigen::MatrixXf> NN::Conv2d(vector<Eigen::MatrixXf> input){
-
+    vector<Eigen::MatrixXf> output;
+    output = DLMATH::Conv3d_3d(input, weights_kernel_);
 }
 
 void NN::Linear(int in_channels, int out_channels){

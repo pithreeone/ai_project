@@ -34,7 +34,8 @@ string data_path_root = "/root/ai_project/cpp/data";
 int EPOCH = 3;
 int BATCH_SIZE = 50;
 double LR = 0.001;
-
+vector<Eigen::MatrixXd> train_x, test_x;
+vector<int> train_y, test_y;
 
 int main(int argc, char** argv){
 
@@ -42,6 +43,7 @@ int main(int argc, char** argv){
     // load data
     DataLoader dl(data_path_root);
     dl.loadDataFromFolder();
+    dl.getData(train_x, train_y, test_x, test_y);
     
     CNN cnn;
 

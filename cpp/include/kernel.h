@@ -1,3 +1,6 @@
+#ifndef _KERNEL_H_
+#define _KERNEL_H_
+
 #include <Eigen/Dense>
 #include <vector>
 
@@ -21,3 +24,5 @@ public:
     // print the information of kernel: size, number of weights
     void print();
 };
+
+#endif
