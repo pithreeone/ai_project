@@ -73,3 +73,14 @@ void DataLoader::loadDataFromFolder(){
     // cout << test_x_.at(6000) << endl;
     // cout << test_y_.at(6000) << endl;
 }
+
+void DataLoader::getData(vector<Eigen::MatrixXd>& train_x, vector<int>& train_y, vector<Eigen::MatrixXd>& test_x, vector<int>& test_y){
+    train_x = train_x_;
+    train_y = train_y_;
+    test_x = test_x_;
+    test_y = test_y_;
+}
+
+void DataLoader::printMetaData(){
+    
+}

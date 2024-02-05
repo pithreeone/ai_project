@@ -25,8 +25,10 @@ public:
     void shuffleData();
 
     // &train_x, &train_y, &test_x, &test_y
-    void getData(vector<Eigen::MatrixXd> train_x, vector<int> train_y, 
-                vector<Eigen::MatrixXd> test_x, vector<int> test_y);
+    void getData(vector<Eigen::MatrixXd>& train_x, vector<int>& train_y, 
+                vector<Eigen::MatrixXd>& test_x, vector<int>& test_y);
+
+    void printMetaData();
 };
 
 
