@@ -1,6 +1,8 @@
-#include <optimization.h>
+#include "optimization.h"
 
-Optimization::Optimization(){
+
+Optimization::Optimization(vector<NN>& network){
+    network_ = network;
 
 }
 
