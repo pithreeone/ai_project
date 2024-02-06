@@ -25,6 +25,8 @@
 #include <eigen3/Eigen/Dense>
 #include <vector>
 #include <dlmath.h>
+#include <cmath>
+
 
 using namespace std;
 
@@ -42,31 +44,66 @@ int main(int argc, char** argv){
 
     cout << "hello_world" << endl;
     // load data
-    DataLoader dl(data_path_root);
-    dl.loadDataFromFolder();
-    dl.getData(train_x, train_y, test_x, test_y);
+    // DataLoader dl(data_path_root);
+    // dl.loadDataFromFolder();
+    // dl.getData(train_x, train_y, test_x, test_y);
     
     CNN cnn;
+    
+    // Below is test-code
+    Eigen::MatrixXf input_temp(3, 5);
+    input_temp << 1.1, 2, 3, 4, 5,
+                4, 5, 6, 7, 8,
+                9, 10, 11, 12, -1; // Ensure you're providing all necessary elements.
+    std::vector<Eigen::MatrixXf> input, output;
+    input.push_back(input_temp);
+    std::cout << input[0] << std::endl;
+    output = cnn.network_[2].MaxPool2d(input);
+    std::cout << output[0] << std::endl;
+    // Above is test-code
 
-    Optimization optimization(cnn.network_);
+    int n_train;
+    Optimization optimization(cnn, LR);
+
+    // Set the loss function
     NN loss_func;
     loss_func.CrossEntropyLoss();
+    cnn.network_.push_back(loss_func);
 
+    // Iterate complete pass through the entire training dataset
     for(int epoch = 0; epoch < EPOCH; epoch++){
-        int STEP;
-        for(int step; step < STEP; step++){
-            vector<Eigen::MatrixXd> batch_x, batch_y;
-            vector<Eigen::MatrixXd> output;
+
+        // Iterate an entire dataset and divide in BATCH_SIZE
+        int step_max = ceil(n_train / BATCH_SIZE);
+        for(int step; step < step_max; step++){
+
+            // Get the data of this batch
+            std::vector<Eigen::MatrixXf> batch_x;
+            std::vector<int> batch_y;
+
+            // Do the forward propagation (save all the results in each layer)
+            std::vector<Eigen::VectorXf> output;
+            std::vector<int> y;
+            cnn.forward(batch_x, output, y);
+
+            // calculate loss (save the result in optimization.loss_)
             optimization.calculateLoss(output, batch_y);
+
+            // set all the gradients to zero
             optimization.zero_grad();
+
             // calculate all the derivatives
             optimization.backward();
-            // fresh the weights by the pre-calculated derivatives
+
+            // update the weights by the pre-calculated derivatives
             optimization.step();
             
-            if (step == STEP - 1){
+            if (step == step_max - 1){
                 // calculate the loss and accuracy in this epoch
             }
+
+
+
 
         }
     }

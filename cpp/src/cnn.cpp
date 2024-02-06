@@ -22,10 +22,10 @@ CNN::CNN(){
     layer2_activation.ReLU();
     layer2_maxpool.MaxPool2d(2);
 
-    // Output Layer
-    NN output;
-    output.Linear(7*7*32, 10);
-    output.Softmax();
+    // Fully-connected Layer
+    NN layer3, layer3_activation;
+    layer3.Linear(7*7*32, 10);
+    layer3_activation.Softmax();
 
 
     // push the above layer to the variable: network
@@ -35,32 +35,36 @@ CNN::CNN(){
     network_.push_back(layer2);
     network_.push_back(layer2_activation);
     network_.push_back(layer2_maxpool);
-    network_.push_back(output);
+    network_.push_back(layer3);
+    network_.push_back(layer3_activation);
 
 }
 
 
 void CNN::forward(Eigen::MatrixXf input, Eigen::VectorXf& output, int& y){
-    vector<Eigen::MatrixXf> x;
-    for(auto i=network_.begin(); i!=network_.end(); i++){
-        if(i->getFunctionType() == "Conv2d"){
-            x = i->Conv2d(x);
-        }
-        else if(i->getFunctionType() == "MaxPool2d"){
-            x = i->MaxPool2d(x);
-        }
-        else if(i->getFunctionType() == "Linear"){
-            x = i->Linear(x);
-        }
-        else if(i->getFunctionType() == "ReLU"){
-            x = i->ReLU(x);
-        }
-        else if(i->getFunctionType() == "Sigmoid"){
-            x = i->Sigmoid(x);
-        }
-        else if(i->getFunctionType() == "Softmax"){
-            output = DLMATH::flatten(x);
-            output = i->Softmax(output);
-        }
+    std::vector<Eigen::MatrixXf> x_mat;
+    Eigen::VectorXf x_vec;
+    x_mat.push_back(input);
+    x_mat = network_[0].Conv2d(x_mat);
+    x_mat = network_[1].ReLU(x_mat);
+    x_mat = network_[2].MaxPool2d(x_mat);
+    x_mat = network_[3].Conv2d(x_mat);
+    x_mat = network_[4].ReLU(x_mat);
+    x_mat = network_[5].MaxPool2d(x_mat);
+    x_vec = DLMATH::flatten(x_mat);
+    x_vec = network_[6].Linear(x_vec);
+    x_vec = network_[7].Softmax(x_vec);
+    output_ = x_vec;
+
+    // The index of the maximum value in the output layer is the prediction of the number
+    output.maxCoeff(&y);
+}
+
+void CNN::forward(std::vector<Eigen::MatrixXf> input, std::vector<Eigen::VectorXf>& output, std::vector<int>& y){
+    int T = input.size();  // Number of the batch size
+    output.resize(T);
+    y.resize(T);
+    for(int t=0; t<T; t++){
+        forward(input[t], output[t], y[t]);
     }
 }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cfloat>
 #include "nn.h"
 #include "dlmath.h"
 
@@ -10,26 +11,25 @@ void NN::Conv2d(int in_channels, int out_channels, int kernel_size, int stride, 
     kernel_size_ = kernel_size;
     stride_ = stride;
     padding_ = padding;
-    for(int i=0; i<out_channels_; i++){
-        weights_kernel_.push_back(*(new Kernel3d(kernel_size_, in_channels)));
-    }
 
+    weights_kernel_ = new Kernel4d(kernel_size_, in_channels_, out_channels_);
+    
     // std::cout << weights_kernel_.size() << std::endl;
 }
 
-vector<Eigen::MatrixXf> NN::Conv2d(vector<Eigen::MatrixXf> input){
-    vector<Eigen::MatrixXf> output;
-    output = DLMATH::Conv3d_3d(input, weights_kernel_);
+std::vector<Eigen::MatrixXf> NN::Conv2d(std::vector<Eigen::MatrixXf> input){
+    // return DLMATH::Conv3d_3d(input, weights_kernel_);
 }
 
 void NN::Linear(int in_channels, int out_channels){
     function_type_ = "Linear";
     in_channels_ = in_channels;
     out_channels_ = out_channels;
-    weights_fc_.resize(in_channels_ + 1, out_channels_);
+    weights_linear_ = new FCWeight(in_channels_, out_channels_);
+    
 }
 
-vector<Eigen::MatrixXf> NN::Linear(vector<Eigen::MatrixXf> input){
+Eigen::VectorXf NN::Linear(Eigen::VectorXf input){
 
 }
 
@@ -38,8 +38,39 @@ void NN::MaxPool2d(int max_pool){
     max_pool_ = max_pool;
 }
 
-vector<Eigen::MatrixXf> NN::MaxPool2d(vector<Eigen::MatrixXf> input){
+std::vector<Eigen::MatrixXf> NN::MaxPool2d(std::vector<Eigen::MatrixXf> input){
+    int row_input = input[0].rows();
+    int col_input = input[0].cols();
+    // std::cout << "row: " << row_input << ", col: " << col_input << std::endl;
+    std::vector<Eigen::MatrixXf> output;
 
+    for(auto i=0; i<input.size(); i++){
+        int row_output = (row_input + max_pool_ - 1)/max_pool_;
+        int col_output = (col_input + max_pool_ - 1)/max_pool_;
+        Eigen::MatrixXf temp(row_output, col_output);
+        for(int j=0; j<row_output; j++){
+            for(int k=0; k<col_output; k++){
+                // find the maximum value in the square-region
+                double max = -DBL_MAX;
+                for(int m=0; m<max_pool_*max_pool_; m++){
+                    int r = max_pool_ * j + m / max_pool_;
+                    int c = max_pool_ * k + m % max_pool_;
+                    if(r >= row_input || c >= col_input) { continue; }
+
+                    // std::cout << "r: " << r << ", c: " << c << std::endl;
+                    if(input[i](r, c) > max){
+                        max = input[i](r, c);
+                    }
+                }
+                temp(j, k) = max;
+            }
+        }
+        output.push_back(temp);
+        // std::cout << "row: " << temp.rows() << ", col: " << temp.cols() << std::endl;
+    }
+    output_mat_.push_back(output);
+    
+    return output;
 }
 
 void NN::ReLU(){
@@ -47,7 +78,11 @@ void NN::ReLU(){
     activation_function_ = "ReLU";
 };
 
-vector<Eigen::MatrixXf> NN::ReLU(vector<Eigen::MatrixXf> input){
+std::vector<Eigen::MatrixXf> NN::ReLU(std::vector<Eigen::MatrixXf> input){
+    
+}
+
+Eigen::VectorXf NN::ReLU(Eigen::VectorXf input){
 
 }
 
@@ -56,7 +91,11 @@ void NN::Sigmoid(){
     activation_function_ = "Sigmoid";
 };
 
-vector<Eigen::MatrixXf> NN::Sigmoid(vector<Eigen::MatrixXf> input){
+std::vector<Eigen::MatrixXf> NN::Sigmoid(std::vector<Eigen::MatrixXf> input){
+
+}
+
+Eigen::VectorXf NN::Sigmoid(Eigen::VectorXf input){
 
 }
 
