@@ -24,6 +24,7 @@
 #include <optimization.h>
 #include <eigen3/Eigen/Dense>
 #include <vector>
+#include <dlmath.h>
 
 using namespace std;
 
