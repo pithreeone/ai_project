@@ -3,18 +3,24 @@
 
 #include <vector>
 #include <Eigen/Dense>
-#include "nn.h"
+#include "cnn.h"
 
-// Update the parameters, 
-// when initialize the object, need to parse the parameters that need to update
+// The function of the class is doing the backpropogation and do the gradient descent
+
 class Optimization{
 private:
+    double loss_;
     double lr_;
-    vector<NN> network_;
+    CNN* cnn_;
+
 public:
-    Optimization(vector<NN>& network);
+
+    // when initialize the object, you need to parse the parameters that need to update
+    Optimization(CNN& cnn, double lr);
     
-    void calculateLoss(vector<Eigen::MatrixXd> predict, vector<Eigen::MatrixXd> label);
+    // Calculate loss and save in variable:loss_
+    // The input argument are vectors of prediction and label. The length of the vector is BATCH_SIZE.
+    void calculateLoss(std::vector<Eigen::VectorXf> predict, std::vector<int> label);
     
     // set all the derivatives to zero
     void zero_grad();
@@ -25,7 +31,7 @@ public:
     // calculate the derivatives from last layer to input layer
     void backward();
 
-    // fresh all weights that have already pre-calculated
+    // Update all weights. The derivatives should have already been pre-calculated
     void step();
 
 };

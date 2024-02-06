@@ -5,12 +5,11 @@
 #include <vector>
 #include <Eigen/Dense>
 #include "kernel.h"
-
-using namespace std;
+#include "fcweight.h"
 
 class NN{
 private:
-    string function_type_;  // [Conv2d, Linear, MaxPool2d, Activation, LossFunction]
+    std::string function_type_;  // [Conv2d, Linear, MaxPool2d, Activation, LossFunction]
     int in_channels_;
     int out_channels_;
     int kernel_size_;
@@ -18,23 +17,28 @@ private:
     int padding_;
     bool bias_;
     int max_pool_;
-    string activation_function_; // [ReLU, Sigmoid, Softmax]
-    string loss_function_;  // [CrossEntropyLoss]
-    
-    // weights
-    vector<Kernel3d> weights_kernel_;     // In cnn layer
-    Eigen::MatrixXf weights_fc_;  // In fully connected layer
-
-    // output of the layer
-    vector<Eigen::MatrixXf> output_;
+    std::string activation_function_; // [ReLU, Sigmoid, Softmax]
+    std::string loss_function_;  // [CrossEntropyLoss]
 
 public:
+    // weights
+    Kernel4d* weights_kernel_;     // Only used if function_type_=="Conv2d"
+    FCWeight* weights_linear_;     // Only used if function_type_=="Linear"
+    
+    // output of the layer (forward-propagation). Need to save all the results in the batch. One result is a 3D-rectangle.
+    std::vector<std::vector<Eigen::MatrixXf>> output_mat_;
+    std::vector<Eigen::VectorXf> output_vec_;
 
-    string getFunctionType(){ return function_type_;}
+    // back-propagation
+    std::vector<std::vector<Eigen::MatrixXf>> responsibility_mat_;
+    std::vector<Eigen::VectorXf> responsibility_vec_;
 
-    string getActivationFunction(){ return activation_function_;}
 
-    string getLossFunction(){ return loss_function_;}
+    std::string getFunctionType(){ return function_type_; }
+
+    std::string getActivationFunction(){ return activation_function_; }
+
+    std::string getLossFunction(){ return loss_function_; }
 
     // The following function has two types. 
     // 1. One is used to define the layer. 
@@ -43,31 +47,38 @@ public:
     // Set an convolutional layer
     void Conv2d(int in_channels, int out_channels, int kernel_size, int stride, int padding);
     // Implement the Conv2d math function
-    vector<Eigen::MatrixXf> Conv2d(vector<Eigen::MatrixXf> input);
+    std::vector<Eigen::MatrixXf> Conv2d(std::vector<Eigen::MatrixXf> input);
     
     // Set an linear layer
     void Linear(int in_channels, int out_channels);
     // Implement the Fully-connected Linear layer
-    vector<Eigen::MatrixXf> Linear(vector<Eigen::MatrixXf> input);
+    // Add an element "1" in front of the input, and multiply by the FCWeight(fully connected weight)
+    Eigen::VectorXf Linear(Eigen::VectorXf input);
 
     // Set MaxPool layer
     void MaxPool2d(int max_pool);
-    // Implement the MaxPool2d layer
-    vector<Eigen::MatrixXf> MaxPool2d(vector<Eigen::MatrixXf> input);
+    // Implement the MaxPool2d layer, input argument is the 3d rectangle
+    std::vector<Eigen::MatrixXf> MaxPool2d(std::vector<Eigen::MatrixXf> input);
 
 
     // Set an activation function
     void ReLU();
-    vector<Eigen::MatrixXf> ReLU(vector<Eigen::MatrixXf> input);
+    // Pass all the input element of vector or matrix by ReLU function.
+    // Store the result in either output_mat_ or output_vec_, according to the appropriate type.
+    std::vector<Eigen::MatrixXf> ReLU(std::vector<Eigen::MatrixXf> input);
+    Eigen::VectorXf ReLU(Eigen::VectorXf input);
     
     void Sigmoid();
-    vector<Eigen::MatrixXf> Sigmoid(vector<Eigen::MatrixXf> input);
+    std::vector<Eigen::MatrixXf> Sigmoid(std::vector<Eigen::MatrixXf> input);
+    Eigen::VectorXf Sigmoid(Eigen::VectorXf input);
     
     void Softmax();
+    // Pass the input vector by the sofrmax function. Store the result in output_vec.
     Eigen::VectorXf Softmax(Eigen::VectorXf input);
 
     // Set an loss function
     void CrossEntropyLoss();
+    // double CrossEntropyLoss(double input);
 
 
 

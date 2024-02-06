@@ -40,3 +40,16 @@ void Kernel3d::randomIntialize(double min, double max){
         bias_ = min + f * range;
     }
 }
+
+Kernel4d::Kernel4d(int kernel_size, int in_channels, int out_channels){
+    kernel_size_ = kernel_size;
+    in_channels_ = in_channels;
+    out_channels_ = out_channels;
+    for(int i=0; i<out_channels_; i++){
+        kernels_.push_back(*(new Kernel3d(kernel_size_, in_channels)));
+    }
+}
+
+void Kernel4d::zero_grad(){
+    
+}
