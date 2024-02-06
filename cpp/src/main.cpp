@@ -44,23 +44,21 @@ int main(int argc, char** argv){
 
     cout << "hello_world" << endl;
     
-    load data
-    DataLoader dl(data_path_root);
-    dl.loadDataFromFolder();
-    dl.getData(train_x, train_y, test_x, test_y);
+    // load data
+    // DataLoader dl(data_path_root);
+    // dl.loadDataFromFolder();
+    // dl.getData(train_x, train_y, test_x, test_y);
     
     CNN cnn;
     
     // Below is test-code
-    Eigen::MatrixXf input_temp(3, 5);
-    input_temp << 1.1, 2, 3, 4, 5,
-                4, 5, 6, 7, 8,
-                9, 10, 11, 12, -1; // Ensure you're providing all necessary elements.
-    std::vector<Eigen::MatrixXf> input, output;
-    input.push_back(input_temp);
-    std::cout << input[0] << std::endl;
-    output = cnn.network_[2].MaxPool2d(input);
-    std::cout << output[0] << std::endl;
+    Kernel3d kernel(5, 2);
+    Eigen::MatrixXf k(5, 5);
+    k << 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24;
+    kernel.kernel_[0] = kernel.kernel_[1] = k;
+    Kernel4d kernels(5, 2, 3);
+    kernels.kernels_[0] = kernels.kernels_[1] = kernels.kernels_[2] = kernel;
+    std::cout << kernels << std::endl;;
     // Above is test-code
 
     int n_train;
