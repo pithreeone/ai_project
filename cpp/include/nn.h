@@ -78,9 +78,10 @@ public:
 
     // Set an loss function
     void CrossEntropyLoss();
-    // double CrossEntropyLoss(double input);
+    double CrossEntropyLoss(Eigen::VectorXf input, int label);
 
-
+    // calculate loss according to the variable:loss_function_
+    double calculateLoss(Eigen::VectorXf input, int label);
 
 
 };

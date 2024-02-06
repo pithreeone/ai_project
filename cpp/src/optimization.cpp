@@ -8,7 +8,11 @@ Optimization::Optimization(CNN& cnn, double lr){
 }
 
 void Optimization::calculateLoss(std::vector<Eigen::VectorXf> predict, std::vector<int> label){
-
+    loss_ = 0;
+    int T = predict.size();
+    for(int t=0; t<T; t++){
+        loss_ += (cnn_->network_.end() - 1)->calculateLoss(predict[t], label[t]);
+    }
 }
 
 void Optimization::zero_grad(){
