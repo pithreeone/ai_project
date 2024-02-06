@@ -126,7 +126,13 @@ namespace DLMATH {
         return y;
     }
 
-    std::vector<Eigen::MatrixXf> Conv3d_3d(std::vector<Eigen::MatrixXf> x, std::vector<Kernel3d> kernels){
-        
+    std::vector<Eigen::MatrixXf> Conv3d_3d(std::vector<Eigen::MatrixXf> x, Kernel4d kernels){
+        std::vector<Eigen::MatrixXf> output;
+        Eigen::MatrixXf m;
+        for (auto kernel=kernels.kernels_.begin(); kernel!=kernels.kernels_.end(); kernel++){
+            m = Conv3d_2d(x,*kernel);
+            output.push_back(m);
+        }
+        return output;
     }
 }

@@ -43,10 +43,11 @@ vector<int> train_y, test_y;
 int main(int argc, char** argv){
 
     cout << "hello_world" << endl;
-    // load data
-    // DataLoader dl(data_path_root);
-    // dl.loadDataFromFolder();
-    // dl.getData(train_x, train_y, test_x, test_y);
+    
+    load data
+    DataLoader dl(data_path_root);
+    dl.loadDataFromFolder();
+    dl.getData(train_x, train_y, test_x, test_y);
     
     CNN cnn;
     
