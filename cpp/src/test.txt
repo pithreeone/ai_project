@@ -20,3 +20,25 @@
     cout << kernel.kernel_[1] << endl;
     Eigen::MatrixXf y = DLMATH::Conv3d_2d(x, kernel);
     cout << y << endl;
+
+    Kernel4d kernels(2,2,2);
+    Kernel3d kernel(2,2);
+    Eigen::MatrixXf a(2,2);
+    a << 1,0,0,1;
+    // kernel.kernel_.resize(2);
+    for (auto i=kernel.kernel_.begin(); i!=kernel.kernel_.end(); i++){
+        i->resize(2, 2);
+        *i = a;
+        cout << "debug" << endl;
+    }
+    // cout << kernel.kernel_[0] << endl;
+    kernels.kernels_[0] = kernel;
+    kernels.kernels_[1] = kernel;
+
+    cout << "kernel(0,0)"<< endl << kernels.kernels_[0].kernel_[0] << endl;
+    cout << "kernel(0,1)"<< endl << kernels.kernels_[0].kernel_[1] << endl;
+    cout << "kernel(1,0)"<< endl << kernels.kernels_[1].kernel_[0] << endl;
+    cout << "kernel(1,1)"<< endl << kernels.kernels_[1].kernel_[1] << endl;
+    vector<Eigen::MatrixXf> y = DLMATH::Conv3d_3d(x, kernels);
+    cout << "y(0)"<< endl << y[0] << endl;
+    cout << "y(1)"<< endl << y[1] << endl;

@@ -29,7 +29,7 @@ namespace DLMATH{
 
     Eigen::MatrixXf Conv3d_2d(std::vector<Eigen::MatrixXf> x, Kernel3d kernel);
     
-    std::vector<Eigen::MatrixXf> Conv3d_3d(std::vector<Eigen::MatrixXf> x, std::vector<Kernel3d> kernels);
+    std::vector<Eigen::MatrixXf> Conv3d_3d(std::vector<Eigen::MatrixXf> x, Kernel4d kernels);
 }
 
 
