@@ -18,6 +18,8 @@ public:
     // when initialize the object, you need to parse the parameters that need to update
     Optimization(CNN& cnn, double lr);
     
+    double getLoss(){ return loss_; }
+
     // Calculate loss and save in variable:loss_
     // The input argument are vectors of prediction and label. The length of the vector is BATCH_SIZE.
     void calculateLoss(std::vector<Eigen::VectorXf> predict, std::vector<int> label);

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cfloat>
+#include <cmath>
 #include "nn.h"
 #include "dlmath.h"
 
@@ -112,3 +113,16 @@ void NN::CrossEntropyLoss(){
     function_type_ = "LossFunction";
     loss_function_ = "CrossEntropyLoss";
 };
+
+double NN::CrossEntropyLoss(Eigen::VectorXf predict, int label){
+    return log(predict(label));
+}
+
+double NN::calculateLoss(Eigen::VectorXf input, int label){
+    if(function_type_ != "LossFunction"){
+        throw std::runtime_error("[nn.cpp]: You can only calculate Loss in the LossFunction layer !");
+    }
+    if(loss_function_ == "CrossEntropyLoss"){
+        return CrossEntropyLoss(input, label);
+    }
+}

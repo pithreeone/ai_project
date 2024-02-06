@@ -42,8 +42,6 @@ vector<int> train_y, test_y;
 
 int main(int argc, char** argv){
 
-    cout << "hello_world" << endl;
-    
     // load data
     // DataLoader dl(data_path_root);
     // dl.loadDataFromFolder();
@@ -52,60 +50,73 @@ int main(int argc, char** argv){
     CNN cnn;
     
     // Below is test-code
-    Kernel3d kernel(5, 2);
-    Eigen::MatrixXf k(5, 5);
-    k << 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24;
-    kernel.kernel_[0] = kernel.kernel_[1] = k;
-    Kernel4d kernels(5, 2, 3);
-    kernels.kernels_[0] = kernels.kernels_[1] = kernels.kernels_[2] = kernel;
-    std::cout << kernels << std::endl;;
+    // Kernel3d kernel(5, 2);
+    // Eigen::MatrixXf k(5, 5);
+    // k << 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24;
+    // kernel.kernel_[0] = kernel.kernel_[1] = k;
+    // Kernel4d kernels(5, 2, 3);
+    // kernels.kernels_[0] = kernels.kernels_[1] = kernels.kernels_[2] = kernel;
+    // std::cout << kernels << std::endl;;
     // Above is test-code
 
-    int n_train;
-    Optimization optimization(cnn, LR);
 
-    // Set the loss function
+    // // Set the loss function
     NN loss_func;
     loss_func.CrossEntropyLoss();
     cnn.network_.push_back(loss_func);
 
-    // Iterate complete pass through the entire training dataset
-    for(int epoch = 0; epoch < EPOCH; epoch++){
+    // Below is test-code
+    // int n_train;
+    // Optimization optimization(cnn, LR);
+    // std::vector<Eigen::VectorXf> prediction;
+    // Eigen::VectorXf temp(5);
+    // temp << 0.3, 0.4, 0.1, 0.1, 0.1;
+    // prediction.push_back(temp);
+    // prediction.push_back(temp);
+    // std::vector<int> label;
+    // label.push_back(1);
+    // label.push_back(0);
+    // optimization.calculateLoss(prediction, label);
+    // std::cout << optimization.getLoss() << std::endl;
+    // Above is test-code
 
-        // Iterate an entire dataset and divide in BATCH_SIZE
-        int step_max = ceil(n_train / BATCH_SIZE);
-        for(int step; step < step_max; step++){
+    // // Iterate complete pass through the entire training dataset
+    // for(int epoch = 0; epoch < EPOCH; epoch++){
 
-            // Get the data of this batch
-            std::vector<Eigen::MatrixXf> batch_x;
-            std::vector<int> batch_y;
+    //     // Iterate an entire dataset and divide in BATCH_SIZE
+    //     int step_max = ceil(n_train / BATCH_SIZE);
+    //     for(int step; step < step_max; step++){
 
-            // Do the forward propagation (save all the results in each layer)
-            std::vector<Eigen::VectorXf> output;
-            std::vector<int> y;
-            cnn.forward(batch_x, output, y);
+    //         // Get the data of this batch
+    //         std::vector<Eigen::MatrixXf> batch_x;
+    //         std::vector<int> batch_y;
 
-            // calculate loss (save the result in optimization.loss_)
-            optimization.calculateLoss(output, batch_y);
+    //         // Do the forward propagation (save all the results in each layer)
+    //         std::vector<Eigen::VectorXf> output;
+    //         std::vector<int> y;
+    //         cnn.forward(batch_x, output, y);
 
-            // set all the gradients to zero
-            optimization.zero_grad();
+    //         // calculate loss (save the result in optimization.loss_)
+    //         optimization.calculateLoss(output, batch_y);
 
-            // calculate all the derivatives
-            optimization.backward();
+    //         // set all the gradients to zero
+    //         optimization.zero_grad();
 
-            // update the weights by the pre-calculated derivatives
-            optimization.step();
+    //         // calculate all the derivatives
+    //         optimization.backward();
+
+    //         // update the weights by the pre-calculated derivatives
+    //         optimization.step();
             
-            if (step == step_max - 1){
-                // calculate the loss and accuracy in this epoch
-            }
+    //         if (step == step_max - 1){
+    //             // calculate the loss and accuracy in this epoch
+    //         }
 
 
 
 
-        }
-    }
+    //     }
+    // }
 
     return 0;
 }
