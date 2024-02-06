@@ -23,7 +23,11 @@ namespace DLMATH{
 
     Eigen::VectorXf flatten(std::vector<Eigen::MatrixXf> x);
 
-    std::vector<Eigen::MatrixXf> Conv3d_2d(std::vector<Eigen::MatrixXf> x, std::vector<Eigen::MatrixXf> kernel);
+    double OneKernelConv(std::vector<Eigen::MatrixXf> x, Kernel3d kernel);
+
+    std::vector<Eigen::MatrixXf> Block(std::vector<Eigen::MatrixXf> x, int row_start, int col_start, int kernel_size);
+
+    Eigen::MatrixXf Conv3d_2d(std::vector<Eigen::MatrixXf> x, Kernel3d kernel);
     
     std::vector<Eigen::MatrixXf> Conv3d_3d(std::vector<Eigen::MatrixXf> x, std::vector<Kernel3d> kernels);
 }
