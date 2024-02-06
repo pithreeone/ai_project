@@ -2,7 +2,6 @@
 #include <iostream>
 #include <Eigen/Dense>
 using namespace Eigen;
-using namespace std;
 
 Kernel3d::Kernel3d(){
 }
@@ -41,6 +40,24 @@ void Kernel3d::randomIntialize(double min, double max){
     }
 }
 
+std::ostream& operator<<(std::ostream& os, const Kernel3d& obj){
+    for(auto kernel = obj.kernel_.begin(); kernel!=obj.kernel_.end(); kernel++){
+        static int i=0;
+        if(kernel == obj.kernel_.begin()){
+            os << "--------" << "3D-kernel size: (kernel:" << obj.kernel_size_ << ", channel:"
+            << obj.channels_ << ")--------" << std::endl;
+        }else{
+            os << "------------------------" << std::endl;
+        }
+        
+        os << "channel: " << i++ << std::endl;
+        os << *kernel << std::endl;
+
+    }
+    // os << "-------------------------------------------------";
+    return os;
+}
+
 Kernel4d::Kernel4d(int kernel_size, int in_channels, int out_channels){
     kernel_size_ = kernel_size;
     in_channels_ = in_channels;
@@ -52,4 +69,15 @@ Kernel4d::Kernel4d(int kernel_size, int in_channels, int out_channels){
 
 void Kernel4d::zero_grad(){
     
+}
+
+std::ostream& operator<<(std::ostream& os, const Kernel4d& obj){
+    os << "--------" << "4D-kernels size: (kernel:" << obj.kernel_size_ << ", out_channel:"
+    << obj.out_channels_ << ")--------" << std::endl;
+    for(auto kernels = obj.kernels_.begin(); kernels!=obj.kernels_.end(); kernels++){
+        os << *kernels;
+        if(kernels!=obj.kernels_.end()-1){
+            os << std::endl;
+        }
+    }
 }

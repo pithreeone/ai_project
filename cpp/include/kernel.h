@@ -3,6 +3,7 @@
 
 #include <Eigen/Dense>
 #include <vector>
+#include <iostream>
 
 // The class define the 3d rectangle of the kernel and a bias
 class Kernel3d{
@@ -21,8 +22,8 @@ public:
     // initialize weights randomly with minimum and maximum value
     void randomIntialize(double min, double max);
 
-    // print the information of kernel: size, number of weights
-    void print();
+    // overload operator "<<"
+    friend std::ostream& operator<<(std::ostream& os, const Kernel3d& obj);
 };
 
 // Handle the weights of the 4d kernel which is just the multiple Kernel3d.
@@ -38,6 +39,9 @@ public:
 
     // Set all the derivatives in kernels_ to zero.
     void zero_grad();
+
+    // overload operator "<<"
+    friend std::ostream& operator<<(std::ostream& os, const Kernel4d& obj);
 };
 
 #endif
