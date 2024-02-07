@@ -19,7 +19,9 @@ void NN::Conv2d(int in_channels, int out_channels, int kernel_size, int stride, 
 }
 
 std::vector<Eigen::MatrixXf> NN::Conv2d(std::vector<Eigen::MatrixXf> input){
-    // return DLMATH::Conv3d_3d(input, weights_kernel_);
+    std::vector<Eigen::MatrixXf> output = DLMATH::Conv3d_3d(input, *weights_kernel_);
+    output_mat_.push_back(output);
+    return output;
 }
 
 void NN::Linear(int in_channels, int out_channels){
@@ -31,7 +33,14 @@ void NN::Linear(int in_channels, int out_channels){
 }
 
 Eigen::VectorXf NN::Linear(Eigen::VectorXf input){
-
+    Eigen::VectorXf input_ = input;
+    input_.resize(input_.size() + 1);
+    input_.head(input.size()) = input;
+    input_[input.size()-1] = 1;
+    Eigen::VectorXf output(input.size());
+    output = weights_linear_->weights_ * input;
+    output_vec_.push_back(output);
+    return output;
 }
 
 void NN::MaxPool2d(int max_pool){
@@ -80,11 +89,29 @@ void NN::ReLU(){
 };
 
 std::vector<Eigen::MatrixXf> NN::ReLU(std::vector<Eigen::MatrixXf> input){
-    
+    std::vector<Eigen::MatrixXf> output;
+    output.resize(input.size());
+    for (int i = 0; i < output.size(); i++){
+        output[i] = Eigen::MatrixXf::Zero(input[i].rows(), input[i].cols());
+    }
+    for (int k = 0; k < input.size(); k++){
+        for (int i = 0; i < input[k].rows(); i++){
+            for (int j = 0; j < input[k].cols(); j++){
+                output[k](i,j) = DLMATH::ReLU(input[k](i,j));
+            }
+        }
+    }
+    output_mat_.push_back(output);
+    return output;
 }
 
 Eigen::VectorXf NN::ReLU(Eigen::VectorXf input){
-
+    Eigen::VectorXf output(input.size());
+    for (int i = 0; i < output.size(); i++){
+        output(i) = DLMATH::ReLU(input(i));
+    }
+    output_vec_.push_back(output);
+    return output;
 }
 
 void NN::Sigmoid(){
@@ -93,11 +120,29 @@ void NN::Sigmoid(){
 };
 
 std::vector<Eigen::MatrixXf> NN::Sigmoid(std::vector<Eigen::MatrixXf> input){
-
+    std::vector<Eigen::MatrixXf> output;
+    output.resize(input.size());
+    for (int i = 0; i < output.size(); i++){
+        output[i] = Eigen::MatrixXf::Zero(input[i].rows(), input[i].cols());
+    }
+    for (int k = 0; k < input.size(); k++){
+        for (int i = 0; i < input[k].rows(); i++){
+            for (int j = 0; j < input[k].cols(); j++){
+                output[k](i,j) = DLMATH::Sigmoid(input[k](i,j));
+            }
+        }
+    }
+    output_mat_.push_back(output);
+    return output;
 }
 
 Eigen::VectorXf NN::Sigmoid(Eigen::VectorXf input){
-
+    Eigen::VectorXf output(input.size());
+    for (int i = 0; i < output.size(); i++){
+        output(i) = DLMATH::Sigmoid(input(i));
+    }
+    output_vec_.push_back(output);
+    return output;
 }
 
 void NN::Softmax(){
@@ -106,7 +151,9 @@ void NN::Softmax(){
 }
 
 Eigen::VectorXf NN::Softmax(Eigen::VectorXf input){
-
+    Eigen::VectorXf output = DLMATH::SoftMax(input);
+    output_vec_.push_back(output);
+    return output;
 }
 
 void NN::CrossEntropyLoss(){
