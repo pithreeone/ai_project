@@ -17,6 +17,9 @@ private:
     int padding_;
     bool bias_;
     int max_pool_;
+    int flatten_channel;
+    int flatten_row;
+    int flatten_col;
     std::string activation_function_; // [ReLU, Sigmoid, Softmax]
     std::string loss_function_;  // [CrossEntropyLoss]
 

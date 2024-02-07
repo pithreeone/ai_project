@@ -104,5 +104,27 @@ void Optimization::backward(){
 }
 
 void Optimization::step(){
-
+    for (int l = 0; l < cnn_->network_.size(); l++){
+        if (cnn_->network_[l].getFunctionType() == "Conv2d"){
+            for (int m = 0; m < cnn_->network_[l].weights_kernel_->kernels_.size(); m++){
+                std::vector<Eigen::MatrixXf> delta = cnn_->network_[l].weights_kernel_->kernels_[m].kernel_derivative_;
+                std::vector<Eigen::MatrixXf> delta_ = delta;
+                for (int k = 0; k < delta.size(); k++){
+                    for (int i = 0; i < delta[k].rows(); i++){
+                        for (int j = 0; j < delta[k].cols(); j++){
+                            delta_[k](i,j) = -lr_ * delta[k](i,j);
+                            cnn_->network_[l].weights_kernel_->kernels_[m].kernel_[k](i,j) += delta_[k](i,j);
+                        }
+                    }
+                }
+            }
+        }else if(cnn_->network_[l].getFunctionType() == "Linear"){
+            Eigen::MatrixXf delta_ = -lr_ *cnn_->network_[l].weights_linear_->weights_derivative_;
+            for (int i = 0; i < delta_.rows(); i++){
+                for (int j = 0; j < delta_.cols(); j++){
+                    cnn_->network_[l].weights_linear_->weights_(i,j) += delta_(i,j);
+                }
+            }
+        }
+    }
 }
