@@ -83,6 +83,23 @@ std::vector<Eigen::MatrixXf> NN::MaxPool2d(std::vector<Eigen::MatrixXf> input){
     return output;
 }
 
+void NN::Flatten(){
+
+}
+
+Eigen::VectorXf NN::Flatten(std::vector<Eigen::MatrixXf> input){
+
+}
+
+std::vector<Eigen::MatrixXf> NN::unFlatten(Eigen::VectorXf input){
+
+}
+
+double NN::getCuboidValueFromVector(int t, int index){
+
+}
+
+
 void NN::ReLU(){
     function_type_ = "Activation";
     activation_function_ = "ReLU";

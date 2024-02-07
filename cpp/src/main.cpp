@@ -65,18 +65,19 @@ int main(int argc, char** argv){
     loss_func.CrossEntropyLoss();
     cnn.network_.push_back(loss_func);
 
+    int n_train;
+    Optimization optimization(cnn, LR);
+
     // Below is test-code
-    // int n_train;
-    // Optimization optimization(cnn, LR);
-    // std::vector<Eigen::VectorXf> prediction;
-    // Eigen::VectorXf temp(5);
-    // temp << 0.3, 0.4, 0.1, 0.1, 0.1;
-    // prediction.push_back(temp);
-    // prediction.push_back(temp);
-    // std::vector<int> label;
-    // label.push_back(1);
-    // label.push_back(0);
-    // optimization.calculateLoss(prediction, label);
+    std::vector<Eigen::VectorXf> prediction;
+    Eigen::VectorXf temp(5);
+    temp << 0.3, 0.4, 0.1, 0.1, 0.1;
+    prediction.push_back(temp);
+    prediction.push_back(temp);
+    std::vector<int> label;
+    label.push_back(1);
+    label.push_back(0);
+    optimization.calculateLoss(prediction, label);
     // std::cout << optimization.getLoss() << std::endl;
     // Above is test-code
 

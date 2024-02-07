@@ -22,6 +22,10 @@ CNN::CNN(){
     layer2_activation.ReLU();
     layer2_maxpool.MaxPool2d(2);
 
+    // Flatten Layer
+    NN layer_flatten;
+    // layer_flatten.Flatten();
+
     // Fully-connected Layer
     NN layer3, layer3_activation;
     layer3.Linear(7*7*32, 10);
@@ -35,6 +39,7 @@ CNN::CNN(){
     network_.push_back(layer2);
     network_.push_back(layer2_activation);
     network_.push_back(layer2_maxpool);
+    network_.push_back(layer_flatten);
     network_.push_back(layer3);
     network_.push_back(layer3_activation);
 

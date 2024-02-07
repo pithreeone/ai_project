@@ -9,7 +9,7 @@
 
 class NN{
 private:
-    std::string function_type_;  // [Conv2d, Linear, MaxPool2d, Activation, LossFunction]
+    std::string function_type_;  // [Conv2d, Linear, MaxPool2d, Activation, LossFunction, Flatten]
     int in_channels_;
     int out_channels_;
     int kernel_size_;
@@ -59,6 +59,15 @@ public:
     void MaxPool2d(int max_pool);
     // Implement the MaxPool2d layer, input argument is the 3d rectangle
     std::vector<Eigen::MatrixXf> MaxPool2d(std::vector<Eigen::MatrixXf> input);
+
+    // Set Flatten layer
+    void Flatten();
+    // 3D -> 1D
+    Eigen::VectorXf Flatten(std::vector<Eigen::MatrixXf> input);
+    // 1D -> 3D (the inverse operation of Flatten) unflatten responsibility
+    std::vector<Eigen::MatrixXf> unFlatten(Eigen::VectorXf input);
+    // t: t-data in Batch, index: the index of the vector
+    double getCuboidValueFromVector(int t, int index);
 
 
     // Set an activation function
