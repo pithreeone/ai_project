@@ -81,8 +81,28 @@ int main(int argc, char** argv){
     // std::cout << optimization.getLoss() << std::endl;
     // Above is test-code
 
-    // Iterate complete pass through the entire training dataset
-    
+    // Below is test-code
+    // NN layer1, layer1_activation, layer1_maxpool;
+    // layer1.Conv2d(1, 16, 5, 1, 2);
+    // cout << layer1.output_mat_ << endl;
+    // layer1_activation.ReLU();
+    // cout << layer1_activation.output_mat_ << endl;
+    // layer1_maxpool.MaxPool2d(2);
+    // cout << layer1_maxpool.output_mat_ << endl;
+    // NN layer3, layer3_activation;
+    // layer3.Linear(14*14*16, 10);
+    // layer3_activation.Softmax();
+    // Above is test-code
+
+    // Below is test-code
+    // Eigen::MatrixXf weight(2,3);
+    // Eigen::VectorXf x(3);
+    // weight << 1,2,3,4,5,6;
+    // x << 1,1,1;
+    // cout << weight*x << endl;
+    // Above is test-code
+
+    // // Iterate complete pass through the entire training dataset
     // for(int epoch = 0; epoch < EPOCH; epoch++){
 
     //     // Iterate an entire dataset and divide in BATCH_SIZE

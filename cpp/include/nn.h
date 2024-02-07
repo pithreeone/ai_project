@@ -52,7 +52,7 @@ public:
     // Set an linear layer
     void Linear(int in_channels, int out_channels);
     // Implement the Fully-connected Linear layer
-    // Add an element "1" in front of the input, and multiply by the FCWeight(fully connected weight)
+    // Add an element "1" at the end of the input, and multiply by the FCWeight(fully connected weight)
     Eigen::VectorXf Linear(Eigen::VectorXf input);
 
     // Set MaxPool layer
