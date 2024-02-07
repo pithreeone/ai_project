@@ -43,9 +43,9 @@ vector<int> train_y, test_y;
 int main(int argc, char** argv){
 
     // load data
-    // DataLoader dl(data_path_root);
-    // dl.loadDataFromFolder();
-    // dl.getData(train_x, train_y, test_x, test_y);
+    DataLoader dl(data_path_root);
+    dl.loadDataFromFolder();
+    dl.getData(train_x, train_y, test_x, test_y);
     
     CNN cnn;
     
@@ -69,15 +69,15 @@ int main(int argc, char** argv){
     Optimization optimization(cnn, LR);
 
     // Below is test-code
-    std::vector<Eigen::VectorXf> prediction;
-    Eigen::VectorXf temp(5);
-    temp << 0.3, 0.4, 0.1, 0.1, 0.1;
-    prediction.push_back(temp);
-    prediction.push_back(temp);
-    std::vector<int> label;
-    label.push_back(1);
-    label.push_back(0);
-    optimization.calculateLoss(prediction, label);
+    // std::vector<Eigen::VectorXf> prediction;
+    // Eigen::VectorXf temp(5);
+    // temp << 0.3, 0.4, 0.1, 0.1, 0.1;
+    // prediction.push_back(temp);
+    // prediction.push_back(temp);
+    // std::vector<int> label;
+    // label.push_back(1);
+    // label.push_back(0);
+    // optimization.calculateLoss(prediction, label);
     // std::cout << optimization.getLoss() << std::endl;
     // Above is test-code
 
@@ -102,43 +102,43 @@ int main(int argc, char** argv){
     // cout << weight*x << endl;
     // Above is test-code
 
-    // // Iterate complete pass through the entire training dataset
-    // for(int epoch = 0; epoch < EPOCH; epoch++){
+    // Iterate complete pass through the entire training dataset
+    for(int epoch = 0; epoch < EPOCH; epoch++){
 
-    //     // Iterate an entire dataset and divide in BATCH_SIZE
-    //     int step_max = ceil(n_train / BATCH_SIZE);
-    //     for(int step; step < step_max; step++){
+        // Iterate an entire dataset and divide in BATCH_SIZE
+        int step_max = ceil(n_train / BATCH_SIZE);
+        for(int step; step < step_max; step++){
 
-    //         // Get the data of this batch
-    //         std::vector<Eigen::MatrixXf> batch_x;
-    //         std::vector<int> batch_y;
+            // Get the data of this batch
+            std::vector<Eigen::MatrixXf> batch_x;
+            std::vector<int> batch_y;
 
-    //         // Do the forward propagation (save all the results in each layer)
-    //         std::vector<Eigen::VectorXf> output;
-    //         std::vector<int> y;
-    //         cnn.forward(batch_x, output, y);
+            // Do the forward propagation (save all the results in each layer)
+            std::vector<Eigen::VectorXf> output;
+            std::vector<int> y;
+            cnn.forward(batch_x, output, y);
 
-    //         // calculate loss (save the result in optimization.loss_)
-    //         optimization.calculateLoss(output, batch_y);
+            // calculate loss (save the result in optimization.loss_)
+            optimization.calculateLoss(output, batch_y);
 
-    //         // set all the gradients to zero
-    //         optimization.zero_grad();
+            // set all the gradients to zero
+            optimization.zero_grad();
 
-    //         // calculate all the derivatives
-    //         optimization.backward();
+            // calculate all the derivatives
+            optimization.backward();
 
-    //         // update the weights by the pre-calculated derivatives
-    //         optimization.step();
+            // update the weights by the pre-calculated derivatives
+            optimization.step();
             
-    //         if (step == step_max - 1){
-    //             // calculate the loss and accuracy in this epoch
-    //         }
+            if (step == step_max - 1){
+                // calculate the loss and accuracy in this epoch
+            }
 
 
 
 
-    //     }
-    // }
+        }
+    }
 
     return 0;
 }
