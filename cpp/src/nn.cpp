@@ -87,15 +87,33 @@ std::vector<Eigen::MatrixXf> NN::MaxPool2d(std::vector<Eigen::MatrixXf> input){
 }
 
 void NN::Flatten(){
-
+    function_type_ = "Flatten";
 }
 
 Eigen::VectorXf NN::Flatten(std::vector<Eigen::MatrixXf> input){
-
+    flatten_channel = input.size();
+    flatten_row = input[0].rows();
+    flatten_col = input[0].cols();
+    Eigen::VectorXf output(flatten_channel*flatten_row*flatten_col);
+    output = DLMATH::flatten(input);
+    output_vec_.push_back(output);
+    return output;
 }
 
 std::vector<Eigen::MatrixXf> NN::unFlatten(Eigen::VectorXf input){
-
+    std::vector<Eigen::MatrixXf> output;
+    output.resize(flatten_channel);
+    for (int i = 0; i < flatten_channel; i++){
+        output[i] = Eigen::MatrixXf::Zero(flatten_row, flatten_col);
+    }
+    for (int k = 0; k < flatten_channel; k++){
+        for (int i = 0; i < flatten_row; i++){
+            for (int j = 0; j < flatten_col; j++){
+                output[k](i,j) = input(k*flatten_row*flatten_col + i*flatten_col + j);
+            }
+        }
+    }output_mat_.push_back(output);
+    return output;
 }
 
 double NN::getCuboidValueFromVector(int t, int index){
